@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171a1f">
+<title>Aarna Jewar — Jewellery CRM Prototype</title>
+<style>
+:root{
+  --bg:#f6f5f2;--surface:#fff;--surface2:#fbfaf7;--ink:#1b1c20;--muted:#73757c;
+  --line:#e8e4dc;--gold:#b7892b;--gold2:#d6b35a;--goldbg:#fbf4e3;
+  --dark:#171a1f;--green:#1f8a5b;--greenbg:#eaf7f0;--red:#b74444;--redbg:#fdeeee;
+  --amber:#986b10;--amberbg:#fff5d9;--blue:#2f64ad;--bluebg:#edf4ff;
+  --shadow:0 8px 30px rgba(27,28,32,.06);--r:16px
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:230px 1fr}
+.sidebar{background:var(--dark);color:#fff;padding:18px 12px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.logo{font-family:Georgia,serif;text-align:center;letter-spacing:3px;font-size:20px;line-height:1.05;color:#e7c46c;padding:8px 4px 24px}
+.logo small{display:block;font-family:inherit;font-size:8px;letter-spacing:2px;color:#a9adb5;margin-top:8px}
+.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#c9cdd3;text-align:left;padding:11px 12px;border-radius:10px;font-size:13px}
+.nav button:hover,.nav button.active{background:#292e36;color:#fff}.nav button.active{box-shadow:inset 3px 0 0 var(--gold2)}
+.sidebar-bottom{margin-top:auto;border-top:1px solid #30353e;padding-top:14px;font-size:11px;color:#9297a0}
+.main{min-width:0;padding:20px 24px 36px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}
+.mobile-menu{display:none}.title h1{font-size:23px;margin:0}.title p{font-size:12px;color:var(--muted);margin:5px 0 0}
+.top-actions{display:flex;align-items:center;gap:8px}.shop-pill{font-size:11px;font-weight:700;background:var(--goldbg);color:#76530d;padding:8px 11px;border-radius:999px}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700}
+.btn:hover{border-color:#d3c8ad}.btn.primary{background:var(--gold);border-color:var(--gold);color:#fff}.btn.dark{background:var(--dark);border-color:var(--dark);color:#fff}
+.btn.small{padding:7px 9px;font-size:11px}.btn.icon{padding:9px;line-height:1}
+.page{display:none}.page.active{display:block}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.metric .label,.label{font-size:11px;color:var(--muted)}.metric .value{font-size:25px;font-weight:800;margin-top:4px}.metric .delta{font-size:10px;color:var(--green);margin-top:5px}
+.section{margin-top:14px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}.section-title h3{font-size:14px;margin:0}.muted{color:var(--muted);font-size:12px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.quick button{border:1px solid var(--line);background:var(--surface2);border-radius:12px;padding:13px 9px;text-align:left}.quick strong{display:block;font-size:12px;margin-top:6px}.quick span{font-size:18px}
+.alert{background:var(--goldbg);border:1px solid #ead9ac;border-radius:14px;padding:14px}.alert strong{display:block;font-size:13px;margin-bottom:5px}.alert p{font-size:12px;margin:0;color:#66501d;line-height:1.5}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}.table{width:100%;border-collapse:collapse;min-width:680px}.table th,.table td{padding:11px 12px;border-bottom:1px solid var(--line);font-size:11px;text-align:left;white-space:nowrap}.table th{font-size:10px;text-transform:uppercase;color:var(--muted);background:#faf9f6}.table tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:800}.green{background:var(--greenbg);color:var(--green)}.amber{background:var(--amberbg);color:var(--amber)}.blue{background:var(--bluebg);color:var(--blue)}.red{background:var(--redbg);color:var(--red)}
+.searchbar{display:flex;gap:8px;margin-bottom:12px}.input,.select{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 11px;font-size:12px;outline:none}.input:focus,.select:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(214,179,90,.14)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions.right{justify-content:flex-end}
+.product-card{display:flex;gap:12px;align-items:center}.product-photo{width:64px;height:64px;border-radius:12px;background:linear-gradient(145deg,#f5e6b8,#b98520);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;letter-spacing:1px;flex:0 0 auto}.product-info{min-width:0}.product-info strong{font-size:13px}.price{font-size:17px;font-weight:800;margin-top:3px}.mini{font-size:10px;color:var(--muted)}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.step{border:1px solid var(--line);background:#faf9f6;border-radius:9px;padding:7px 9px;font-size:10px}.step.done{background:var(--greenbg);border-color:#cfeedd;color:var(--green)}
+.tag-preview{display:flex;justify-content:center;padding:18px;background:#f2f0eb;border-radius:12px;margin-top:12px}.tag-paper{width:185px;background:#fff;border:1px solid #d9d5cc;border-radius:7px;padding:12px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.06)}.tag-paper .shop{font-family:Georgia,serif;letter-spacing:2px;font-size:11px}.tag-paper .item{font-weight:900;font-size:13px;margin:8px 0}.barcode{font-family:"Courier New",monospace;letter-spacing:2px;font-size:14px;line-height:1.2}.tag-paper .tagprice{font-weight:900;font-size:15px;margin-top:8px}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(10,12,15,.48);z-index:30;align-items:flex-end;justify-content:center;padding:14px}.modal-backdrop.show{display:flex}.modal{background:#fff;border-radius:18px;max-width:620px;width:100%;max-height:90vh;overflow:auto;padding:18px}.modal-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.modal-head h3{margin:0;font-size:16px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field label{display:block;font-size:10px;color:var(--muted);margin-bottom:5px}.field.full{grid-column:1/-1}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:12px}.footer-note{font-size:10px;color:var(--muted);margin-top:14px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:fixed;inset:0 auto 0 0;width:245px;z-index:20;transform:translateX(-100%);transition:.2s}.sidebar.open{transform:translateX(0)}.mobile-menu{display:inline-flex}.main{padding:16px}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:1fr}.topbar{align-items:flex-start}.shop-pill{display:none}}
+@media(max-width:600px){.main{padding:12px}.topbar{margin-bottom:14px}.title h1{font-size:19px}.top-actions .btn:not(.mobile-menu){display:none}.grid4{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:13px;border-radius:14px}.metric .value{font-size:21px}.quick{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.searchbar{flex-direction:column}.modal-backdrop{padding:8px}.modal{border-radius:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="logo">AARNA JEWAR<small>JEWELLERY CRM</small></div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard">⌂ &nbsp; Dashboard</button>
+    <button data-page="billing">▣ &nbsp; New Bill</button>
+    <button data-page="inventory">◇ &nbsp; Inventory</button>
+    <button data-page="tagging">🏷 &nbsp; Smart Tagging</button>
+    <button data-page="purchases">＋ &nbsp; Stock In</button>
+    <button data-page="customers">♙ &nbsp; Customers</button>
+    <button data-page="suppliers">▤ &nbsp; Suppliers</button>
+    <button data-page="reports">▥ &nbsp; Reports</button>
+    <button data-page="settings">⚙ &nbsp; Settings</button>
+  </nav>
+  <div class="sidebar-bottom">Prototype · UI/UX only<br>Production data not connected</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:9px">
+    <button class="btn icon mobile-menu" id="menuBtn">☰</button>
+    <div class="title"><h1 id="pageTitle">Good Morning 👋</h1><p id="pageSub">Aarna Jewar · Jewellery business command center</p></div>
+  </div>
+  <div class="top-actions"><span class="shop-pill">GST Registered</span><button class="btn">Ranjeet Soni ▾</button></div>
+</header>
+
+<section id="dashboard" class="page active">
+  <div class="grid4">
+    <div class="card metric"><div class="label">Today's Sales</div><div class="value">₹48,250</div><div class="delta">↑ 12.4% vs yesterday</div></div>
+    <div class="card metric"><div class="label">Bills Today</div><div class="value">17</div><div class="delta">3 pending payments</div></div>
+    <div class="card metric"><div class="label">Stock Pieces</div><div class="value">500</div><div class="delta">₹12.4L stock value</div></div>
+    <div class="card metric"><div class="label">Low Stock</div><div class="value">8</div><div class="delta" style="color:var(--red)">Needs attention</div></div>
+  </div>
+  <div class="section grid2">
+    <div class="card"><div class="section-title"><h3>Quick Actions</h3><span class="muted">Do the common things fast</span></div>
+      <div class="quick">
+        <button data-page="billing"><span>🧾</span><strong>New Bill</strong><small class="mini">Scan & sell</small></button>
+        <button data-page="purchases"><span>📦</span><strong>Add Stock</strong><small class="mini">Receive items</small></button>
+        <button data-page="tagging"><span>🏷</span><strong>Tag Items</strong><small class="mini">Print & verify</small></button>
+        <button data-page="customers"><span>👤</span><strong>Customer</strong><small class="mini">Find / add</small></button>
+      </div>
+    </div>
+    <div class="alert"><strong>💡 Today's Insight</strong><p>8 items are low in stock. The system can surface them automatically before the evening rush.</p><div class="actions" style="margin-top:11px"><button class="btn small" data-page="inventory">Review Low Stock</button></div></div>
+  </div>
+  <div class="section card"><div class="section-title"><h3>Recent Activity</h3><span class="muted">Latest business events</span></div>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Time</th><th>Activity</th><th>Item</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+      <tr><td>10:32</td><td>Sale completed</td><td>JWL-00124 · Locket</td><td>₹10,700</td><td><span class="badge green">SOLD</span></td></tr>
+      <tr><td>10:18</td><td>Stock received</td><td>40 Rings</td><td>—</td><td><span class="badge blue">ADDED</span></td></tr>
+      <tr><td>09:55</td><td>Tag verified</td><td>JWL-00127 · Jhumki</td><td>₹10,700</td><td><span class="badge green">VERIFIED</span></td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<section id="inventory" class="page">
+  <div class="card"><div class="section-title"><h3>Inventory</h3><div class="actions"><button class="btn primary" data-page="purchases">＋ Add Stock</button><button class="btn" data-page="tagging">🏷 Tag Queue</button></div></div>
+  <div class="searchbar"><input class="input" placeholder="Search item, barcode, category or name..."><select class="select" style="max-width:170px"><option>All Categories</option><option>Ring</option><option>Bangle</option><option>Jhumka</option><option>Locket</option><option>Tops</option></select><select class="select" style="max-width:150px"><option>All Status</option><option>In Stock</option><option>Tag Pending</option><option>Sold</option></select></div>
+  <div class="table-wrap"><table class="table"><thead><tr><th>Item ID</th><th>Product</th><th>Category</th><th>Cost</th><th>Selling</th><th>Tag</th><th>Stock</th></tr></thead><tbody>
+    <tr><td><strong>JWL-00124</strong></td><td>Locket</td><td>Locket</td><td>₹7,000</td><td>₹10,700</td><td><span class="badge green">VERIFIED</span></td><td>Available</td></tr>
+    <tr><td><strong>JWL-00125</strong></td><td>Tops</td><td>Tops</td><td>₹6,600</td><td>₹10,100</td><td><span class="badge green">VERIFIED</span></td><td>Available</td></tr>
+    <tr><td><strong>JWL-00126</strong></td><td>Gents Ring</td><td>Ring</td><td>₹7,200</td><td>₹11,100</td><td><span class="badge amber">PENDING</span></td><td>Available</td></tr>
+    <tr><td><strong>JWL-00127</strong></td><td>Jhumki</td><td>Jhumka</td><td>₹7,000</td><td>₹10,700</td><td><span class="badge green">VERIFIED</span></td><td>Available</td></tr>
+  </tbody></table></div></div>
+  <div class="section grid3"><div class="card"><div class="label">40 Rings</div><div class="metric .value">40</div><span class="badge green">ALL TRACKED</span></div><div class="card"><div class="label">60 Bangles</div><div class="metric .value">60</div><span class="badge blue">ALL TRACKED</span></div><div class="card"><div class="label">100 Jhumkas</div><div class="metric .value">100</div><span class="badge amber">6 LOW STOCK</span></div></div>
+</section>
+
+<section id="tagging" class="page">
+  <div class="grid2">
+    <div class="card">
+      <div class="section-title"><h3>Smart Tagging Station</h3><span class="badge amber" id="tagStatus">TAG PENDING</span></div>
+      <div class="product-card"><div class="product-photo">RING</div><div class="product-info"><div class="mini">Current physical item</div><strong>JWL-00126 · Gents Ring</strong><div class="price">₹11,100</div><div class="mini">Purchase ₹7,200 · Barcode JWL00126</div></div></div>
+      <div class="steps"><span class="step done">1 · Item saved</span><span class="step done">2 · Barcode generated</span><span class="step" id="s3">3 · Print tag</span><span class="step" id="s4">4 · Scan verify</span></div>
+      <div class="actions"><button class="btn primary" id="printBtn">🖨 Print Tag</button><button class="btn" id="verifyBtn">▣ Scan / Verify</button></div>
+      <div class="tag-preview"><div class="tag-paper"><div class="shop">AARNA JEWAR</div><div class="item">GENTS RING</div><div class="barcode">|| ||| || ||||</div><div style="font-size:9px">JWL-00126</div><div class="tagprice">₹11,100</div></div></div>
+    </div>
+    <div class="card"><div class="section-title"><h3>Controlled Bulk Print</h3><span class="muted">No random tags</span></div>
+      <div class="alert"><strong>200 items ready</strong><p>40 Rings · 60 Bangles · 100 Jhumkas. Each physical piece has its own Item ID. Print by controlled sequence or selected items.</p></div>
+      <div class="section"><div class="table-wrap"><table class="table" style="min-width:0"><thead><tr><th>Group</th><th>Qty</th><th>Queue</th></tr></thead><tbody><tr><td>Rings</td><td>40</td><td><span class="badge blue">READY</span></td></tr><tr><td>Bangles</td><td>60</td><td><span class="badge blue">READY</span></td></tr><tr><td>Jhumkas</td><td>100</td><td><span class="badge blue">READY</span></td></tr></tbody></table></div></div>
+      <div class="actions" style="margin-top:11px"><button class="btn dark" id="bulkBtn">🖨 Print Selected Tags</button><button class="btn" id="queueBtn">View Queue</button></div>
+      <p class="footer-note">Prototype behavior: printing is simulated. Final build will support configurable tag sizes, fields and printer integration.</p>
+    </div>
+  </div>
+</section>
+
+<section id="billing" class="page">
+  <div class="card"><div class="section-title"><h3>New Bill</h3><span class="badge blue">DRAFT #INV-1024</span></div>
+    <div class="searchbar"><input id="scanInput" class="input" placeholder="Scan barcode or type Item ID..." autofocus><button class="btn primary" id="addBillItem">＋ Add Item</button></div>
+    <div class="product-card card" style="background:var(--surface2);box-shadow:none"><div class="product-photo">LOCKET</div><div class="product-info"><div class="mini">Scanned item</div><strong>JWL-00124 · Locket</strong><div class="price">₹10,700</div><div class="mini">Available · Verified tag</div></div></div>
+    <div class="section table-wrap"><table class="table"><thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST</th><th>Amount</th></tr></thead><tbody id="billBody"><tr><td>JWL-00124 · Locket</td><td>1</td><td>₹10,700</td><td>As configured</td><td><strong>₹10,700</strong></td></tr></tbody></table></div>
+    <div class="grid2 section"><div><div class="label">Customer</div><div class="actions" style="margin-top:6px"><button class="btn">Walk-in Customer</button><button class="btn">＋ Add Customer</button></div></div><div class="card" style="box-shadow:none;background:var(--surface2)"><div class="label">Bill Summary</div><div style="display:flex;justify-content:space-between;margin-top:7px;font-size:12px"><span>Subtotal</span><strong id="subtotal">₹10,700</strong></div><div style="display:flex;justify-content:space-between;margin-top:7px;font-size:12px"><span>Discount</span><strong>₹0</strong></div><div style="display:flex;justify-content:space-between;margin-top:7px;font-size:16px"><strong>Total</strong><strong>₹10,700 + GST</strong></div></div></div>
+    <div class="actions right section"><button class="btn">Hold Bill</button><button class="btn">Save Draft</button><button class="btn primary">✓ Complete & Print</button></div>
+  </div>
+</section>
+
+<section id="purchases" class="page">
+  <div class="card"><div class="section-title"><h3>Stock In — Guided Process</h3><span class="badge blue">NEW PURCHASE</span></div>
+    <div class="steps"><span class="step done">1 · Supplier</span><span class="step">2 · Items</span><span class="step">3 · Pricing</span><span class="step">4 · Tags</span><span class="step">5 · Confirm</span></div>
+    <div class="form-grid">
+      <div class="field"><label>Supplier</label><select class="select"><option>ABC Jewellery</option><option>New Supplier</option></select></div>
+      <div class="field"><label>Purchase Reference</label><input class="input" placeholder="Supplier bill / reference"></div>
+      <div class="field"><label>Pricing Mode</label><select class="select"><option>Manual Selling Price</option><option>Pricing Rule — Cost + %</option><option>Pricing Rule — Cost + Amount</option></select></div>
+      <div class="field"><label>Category</label><select class="select"><option>Ring</option><option>Bangle</option><option>Jhumka</option><option>Locket</option><option>Tops</option></select></div>
+      <div class="field"><label>Purchase Cost</label><input class="input" value="7000"></div>
+      <div class="field"><label>Selling Price</label><input class="input" value="10600"></div>
+      <div class="field full"><label>Item photo</label><input class="input" type="file" accept="image/*"></div>
+    </div>
+    <div class="alert section"><strong>Next step</strong><p>Save the physical item → generate unique Item ID → print your selling-price tag → attach → scan to verify.</p></div>
+    <div class="actions section"><button class="btn primary">Save Item & Continue</button><button class="btn">Import Excel</button></div>
+  </div>
+</section>
+
+<section id="customers" class="page">
+  <div class="grid4"><div class="card metric"><div class="label">Customers</div><div class="value">842</div></div><div class="card metric"><div class="label">Repeat Customers</div><div class="value">316</div></div><div class="card metric"><div class="label">New Today</div><div class="value">7</div></div><div class="card metric"><div class="label">Outstanding</div><div class="value">₹18,400</div></div></div>
+  <div class="section card"><div class="section-title"><h3>Customer CRM</h3><button class="btn primary">＋ Add Customer</button></div><div class="searchbar"><input class="input" placeholder="Search name or mobile..."></div><div class="table-wrap"><table class="table"><thead><tr><th>Customer</th><th>Mobile</th><th>Bills</th><th>Total Purchase</th><th>Last Purchase</th><th>Type</th></tr></thead><tbody><tr><td><strong>Rahul Sharma</strong></td><td>98XXXXXX12</td><td>14</td><td>₹28,450</td><td>08 Oct</td><td><span class="badge green">REPEAT</span></td></tr><tr><td><strong>Neha Gupta</strong></td><td>97XXXXXX44</td><td>8</td><td>₹18,600</td><td>05 Oct</td><td><span class="badge blue">ACTIVE</span></td></tr></tbody></table></div></div>
+</section>
+
+<section id="suppliers" class="page">
+  <div class="grid3"><div class="card metric"><div class="label">Suppliers</div><div class="value">18</div></div><div class="card metric"><div class="label">Purchase This Month</div><div class="value">₹4.82L</div></div><div class="card metric"><div class="label">Pending Payables</div><div class="value">₹38,000</div></div></div>
+  <div class="section card"><div class="section-title"><h3>Suppliers</h3><button class="btn primary">＋ Add Supplier</button></div><div class="table-wrap"><table class="table"><thead><tr><th>Supplier</th><th>Last Purchase</th><th>Total Purchase</th><th>Payable</th><th>Status</th></tr></thead><tbody><tr><td><strong>ABC Jewellery</strong></td><td>11 Oct</td><td>₹1.28L</td><td>₹18,000</td><td><span class="badge amber">PENDING</span></td></tr><tr><td><strong>Shree Designs</strong></td><td>08 Oct</td><td>₹92,500</td><td>₹0</td><td><span class="badge green">CLEAR</span></td></tr></tbody></table></div></div>
+</section>
+
+<section id="reports" class="page">
+  <div class="grid4"><div class="card metric"><div class="label">Sales This Month</div><div class="value">₹6.84L</div></div><div class="card metric"><div class="label">Gross Profit</div><div class="value">₹2.31L</div></div><div class="card metric"><div class="label">Pieces Sold</div><div class="value">384</div></div><div class="card metric"><div class="label">Stock Value</div><div class="value">₹12.4L</div></div></div>
+  <div class="section card"><div class="section-title"><h3>Reports</h3><span class="muted">Exportable in final build</span></div><div class="actions"><button class="btn">Sales Report</button><button class="btn">Stock Report</button><button class="btn">Profit Report</button><button class="btn">GST Report</button><button class="btn">Customer Report</button><button class="btn">Supplier Ledger</button></div></div>
+</section>
+
+<section id="settings" class="page">
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h3>Pricing</h3><span class="badge blue">FLEXIBLE</span></div><p class="muted">Manual selling price remains available. Optional rules can suggest a price.</p><button class="btn primary">Configure Rules</button></div>
+    <div class="card"><div class="section-title"><h3>Tag Template</h3><span class="badge blue">CONFIGURABLE</span></div><p class="muted">Choose Item ID, barcode, selling price, weight, purity and other fields.</p><button class="btn">Edit Template</button></div>
+    <div class="card"><div class="section-title"><h3>Printer & Scanner</h3><span class="badge blue">DEVICE AGNOSTIC</span></div><p class="muted">Label dimensions and printer settings are configurable so hardware can change later.</p><button class="btn">Printer Setup</button></div>
+    <div class="card"><div class="section-title"><h3>Users & Permissions</h3><span class="badge blue">ROLE BASED</span></div><p class="muted">Owner, Manager, Cashier and Stock roles. Sensitive actions can be restricted.</p><button class="btn">Manage Users</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="modal-backdrop" id="modal"><div class="modal"><div class="modal-head"><h3 id="modalTitle">Prototype Action</h3><button class="btn icon" id="modalClose">×</button></div><div id="modalBody" style="margin-top:12px"></div></div></div>
+
+<script>
+const pageMeta={
+dashboard:["Good Morning 👋","Aarna Jewar · Jewellery business command center"],
+billing:["New Bill","Scan an item and complete the sale"],
+inventory:["Inventory","Every physical piece has a unique identity"],
+tagging:["Smart Tagging","Print, attach and verify every jewellery tag"],
+purchases:["Stock In","A guided process from purchase to ready stock"],
+customers:["Customers","Customer history and relationship management"],
+suppliers:["Suppliers","Supplier purchases and payable tracking"],
+reports:["Reports","Sales, stock, profit and GST insights"],
+settings:["Settings","Configure pricing, tags, printers and permissions"]
+};
+const sidebar=document.getElementById("sidebar"), pages=[...document.querySelectorAll(".page")];
+function go(page){
+  pages.forEach(p=>p.classList.toggle("active",p.id===page));
+  document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page && b.closest(".nav")));
+  document.getElementById("pageTitle").textContent=pageMeta[page][0];
+  document.getElementById("pageSub").textContent=pageMeta[page][1];
+  sidebar.classList.remove("open"); window.scrollTo({top:0,behavior:"smooth"});
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-page]"); if(b) go(b.dataset.page);
+});
+document.getElementById("menuBtn").addEventListener("click",()=>sidebar.classList.toggle("open"));
+
+const modal=document.getElementById("modal");
+function showModal(title,body){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=body;modal.classList.add("show")}
+document.getElementById("modalClose").onclick=()=>modal.classList.remove("show");
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
+
+document.getElementById("printBtn").onclick=()=>{
+  document.getElementById("tagStatus").className="badge blue";document.getElementById("tagStatus").textContent="PRINTED";
+  document.getElementById("s3").classList.add("done");
+  showModal("Tag sent to printer","<p class='muted'>Prototype print simulation complete.</p><div class='tag-preview'><div class='tag-paper'><div class='shop'>AARNA JEWAR</div><div class='item'>GENTS RING</div><div class='barcode'>|| ||| || ||||</div><div style='font-size:9px'>JWL-00126</div><div class='tagprice'>₹11,100</div></div></div><p class='muted'>Next: attach this tag to the physical item, then use <b>Scan / Verify</b>.</p>");
+};
+document.getElementById("verifyBtn").onclick=()=>{
+  document.getElementById("tagStatus").className="badge green";document.getElementById("tagStatus").textContent="VERIFIED";
+  document.getElementById("s4").classList.add("done");
+  showModal("✓ Tag Verified","<p style='font-size:13px'><b>JWL-00126</b> matched successfully.</p><p class='muted'>The physical tag is now linked to this inventory item.</p>");
+};
+document.getElementById("bulkBtn").onclick=()=>showModal("Bulk Tag Queue","<p style='font-size:13px'><b>200 tags</b> queued in controlled groups:</p><ul style='font-size:12px;line-height:1.8'><li>40 Rings</li><li>60 Bangles</li><li>100 Jhumkas</li></ul><p class='muted'>Final build will allow select all, select range, reprint and verification status.</p>");
+document.getElementById("queueBtn").onclick=()=>showModal("Tag Queue","<div class='table-wrap'><table class='table' style='min-width:0'><tr><th>Item</th><th>Status</th></tr><tr><td>JWL-00124</td><td><span class='badge green'>VERIFIED</span></td></tr><tr><td>JWL-00125</td><td><span class='badge green'>VERIFIED</span></td></tr><tr><td>JWL-00126</td><td><span class='badge amber'>PENDING</span></td></tr></table></div>");
+document.getElementById("addBillItem").onclick=()=>{
+  const val=document.getElementById("scanInput").value.trim()||"JWL-00126";
+  const clean=val.replace(/[<>]/g,"");
+  document.getElementById("billBody").insertAdjacentHTML("beforeend",`<tr><td>${clean} · Item</td><td>1</td><td>₹10,600</td><td>As configured</td><td><strong>₹10,600</strong></td></tr>`);
+  document.getElementById("scanInput").value="";
+};
+</script>
+</body>
+</html>

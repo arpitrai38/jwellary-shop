@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&family=Cinzel:wght@600;700;800&display=swap');
+
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface2: #fbfaf7;
+  --ink: #1b1c20;
+  --muted: #73757c;
+  --line: #e8e4dc;
+  --gold: #b7892b;
+  --gold2: #d6b35a;
+  --goldbg: #fbf4e3;
+  --dark: #171a1f;
+  --green: #1f8a5b;
+  --greenbg: #eaf7f0;
+  --red: #b74444;
+  --redbg: #fdeeee;
+  --amber: #986b10;
+  --amberbg: #fff5d9;
+  --blue: #2f64ad;
+  --bluebg: #edf4ff;
+  --shadow: 0 8px 30px rgba(27, 28, 32, 0.06);
+  --r: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f0eb;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4cfc5;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b7892b;
+}
+
+/* Hide scrollbar completely for sidebar while preserving full vertical scrolling */
+aside,
+aside *,
+.sidebar-nav,
+.MuiDrawer-paper {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE & Edge */
+}
+
+aside::-webkit-scrollbar,
+aside *::-webkit-scrollbar,
+.sidebar-nav::-webkit-scrollbar,
+.MuiDrawer-paper::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Brand Logo Typography */
+.brand-title {
+  font-family: 'Cinzel', 'Georgia', serif;
+  letter-spacing: 3px;
+  font-size: 19px;
+  line-height: 1.1;
+  color: #e7c46c;
+  text-align: center;
+}
+
+.brand-subtitle {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #a9adb5;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+/* Prototype-exact Badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.badge-green {
+  background-color: var(--greenbg);
+  color: var(--green);
+  border: 1px solid rgba(31, 138, 91, 0.2);
+}
+
+.badge-amber {
+  background-color: var(--amberbg);
+  color: var(--amber);
+  border: 1px solid rgba(152, 107, 16, 0.2);
+}
+
+.badge-blue {
+  background-color: var(--bluebg);
+  color: var(--blue);
+  border: 1px solid rgba(47, 100, 173, 0.2);
+}
+
+.badge-red {
+  background-color: var(--redbg);
+  color: var(--red);
+  border: 1px solid rgba(183, 68, 68, 0.2);
+}
+
+/* Guided steps */
+.step-badge {
+  border: 1px solid var(--line);
+  background: #faf9f6;
+  border-radius: 9px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-badge.done {
+  background: var(--greenbg);
+  border-color: #cfeedd;
+  color: var(--green);
+}
+
+.step-badge.active {
+  background: var(--goldbg);
+  border-color: var(--gold2);
+  color: #76530d;
+}
+
+/* Tag preview paper */
+.tag-preview-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 18px;
+  background: #f2f0eb;
+  border-radius: 12px;
+  margin-top: 14px;
+}
+
+.tag-paper {
+  width: 195px;
+  background: #ffffff;
+  border: 1px solid #d9d5cc;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.tag-paper .shop-header {
+  font-family: 'Cinzel', 'Georgia', serif;
+  letter-spacing: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #171a1f;
+}
+
+.tag-paper .item-title {
+  font-weight: 800;
+  font-size: 12px;
+  margin: 6px 0;
+  color: #171a1f;
+}
+
+.tag-paper .tag-price {
+  font-weight: 900;
+  font-size: 15px;
+  margin-top: 6px;
+  color: var(--ink);
+}
+
+/* Printable Invoice styling */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-area, .printable-area * {
+    visibility: visible;
+  }
+  .printable-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 10mm;
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
